@@ -5,15 +5,15 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AppInner from './AppInner';
 
 function App() {
   return (
-    <SafeAreaView>
-      <Icon name="home" size={30} color="#222" />
-    </SafeAreaView>
+    <NavigationContainer>
+      <AppInner />
+    </NavigationContainer>
   );
 }
 

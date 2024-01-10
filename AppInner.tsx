@@ -1,9 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from './src/pages/Home';
-import Group from './src/pages/Group';
-import Add from './src/pages/Add';
-import Video from './src/pages/Video';
-import Profile from './src/pages/Profile';
+import Home from './src/screens/Home';
+import Group from './src/screens/Group';
+import Add from './src/screens/Add';
+import Video from './src/screens/Video';
+import Profile from './src/screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();

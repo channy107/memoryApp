@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './src/screens/Home';
-import Group from './src/screens/Group';
+import Search from './src/screens/Search';
 import Add from './src/screens/Add';
 import Video from './src/screens/Video';
 import Profile from './src/screens/Profile';
@@ -20,12 +20,12 @@ function AppInner() {
         }}
       />
       <Tab.Screen
-        name="Group"
-        component={Group}
+        name="Search"
+        component={Search}
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="group" size={20} />,
+          tabBarIcon: ({}) => <Icon name="search" size={20} />,
         }}
       />
       <Tab.Screen

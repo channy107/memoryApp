@@ -1,134 +1,106 @@
-import React, {useEffect, useRef, useState} from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
   Dimensions,
-  Animated,
-  LayoutChangeEvent,
+  Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-
+import {IPost} from '../types';
+import {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Video from 'react-native-video';
 
 interface IProps {
-  title: string;
-  content: string;
-  uri: string;
+  post: IPost;
 }
 
 const width = Dimensions.get('window').width;
-//TODO bottom tab 높이를 동적으로 가져오는 방법으로 수정필요
-const height = Dimensions.get('window').height - 68;
+const height = Dimensions.get('window').height;
 
-const Post = ({title, content}: IProps) => {
-  const [expanded, setExpanded] = useState(false);
-  const [showMore, setShowMore] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const contentHeight = useRef(new Animated.Value(100)).current;
-  const playIconScale = useRef(new Animated.Value(0)).current;
-  const containerWidthRef = useRef<number | null>(null);
+const Post = ({post}: IProps) => {
+  const {content, comments, likeCount, user, imageUrls} = post;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const onContainerLayout = (event: LayoutChangeEvent) => {
-    const containerWidth = event.nativeEvent.layout.width;
-    containerWidthRef.current = containerWidth;
-    //TODO text 가 영역을 넘어갈때의 값을 정확히 가져오는 방법으로 수정필요
-    setShowMore(containerWidth < content.length * 8);
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / width);
+    setActiveIndex(currentIndex);
   };
-
-  const togglePause = () => {
-    setPaused(!paused);
-  };
-
-  const toggleContent = () => {
-    Animated.timing(contentHeight, {
-      toValue: expanded ? 100 : 200,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-
-    setExpanded(!expanded);
-  };
-
-  useEffect(() => {
-    if (paused) {
-      Animated.sequence([
-        Animated.timing(playIconScale, {
-          toValue: 1.2,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.timing(playIconScale, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    }
-  }, [paused, playIconScale]);
 
   return (
-    <TouchableWithoutFeedback onPress={togglePause}>
-      <View style={styles.container}>
-        <Video
-          source={require('../../assets/video/video4.mov')}
-          style={StyleSheet.absoluteFill}
-          resizeMode="cover"
-          repeat
-          paused={paused}
+    <View style={styles.container}>
+      <View style={styles.title}>
+        <Image
+          source={{uri: 'https://source.unsplash.com/random'}}
+          style={styles.profileImage}
         />
-
-        <Animated.View
-          style={[
-            styles.playIconContainer,
-            {
-              transform: [
-                {
-                  scale: playIconScale,
-                },
-              ],
-            },
-          ]}>
-          {paused && <Icon name="play-circle" size={100} color="#FFF" />}
-        </Animated.View>
-
-        {/* <Image source={{uri: imgUrl}} style={StyleSheet.absoluteFillObject} /> */}
-        <View style={styles.bottomContainer}>
-          <Animated.View
-            style={[styles.contentSection, {height: contentHeight}]}>
-            <Text style={styles.title}>{title}</Text>
-
-            <View>
-              <Text
-                style={styles.content}
-                onLayout={onContainerLayout}
-                numberOfLines={expanded ? 0 : 1}
-                ellipsizeMode="tail">
-                {content}
-              </Text>
-            </View>
-          </Animated.View>
-          {showMore && (
-            <TouchableWithoutFeedback onPress={toggleContent}>
-              <Text style={styles.more}>
-                {expanded ? '숨기기' : '자세히 보기'}
-              </Text>
-            </TouchableWithoutFeedback>
-          )}
-
-          <View style={styles.actionSection}>
-            <TouchableWithoutFeedback style={styles.button}>
-              <Icon name="heart" size={28} color={'#fff'} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback style={styles.button}>
-              <Icon name="comment" size={28} color={'#fff'} />
-            </TouchableWithoutFeedback>
-          </View>
+        <Text style={styles.userName}>{user.name}</Text>
+      </View>
+      <View>
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={handleScroll}
+          style={styles.slider}>
+          {imageUrls.map((imageUrl, index) => (
+            <Image key={index} source={{uri: imageUrl}} style={styles.image} />
+          ))}
+        </ScrollView>
+      </View>
+      {imageUrls.length > 1 && (
+        <View style={styles.paginationWrapper}>
+          {imageUrls.map((_, index) => (
+            <View
+              key={index}
+              style={[
+                styles.dot,
+                index === activeIndex ? styles.dotActive : styles.dotInactive,
+              ]}
+            />
+          ))}
+        </View>
+      )}
+      {imageUrls.length > 1 && (
+        <View style={styles.imageCounterContainer}>
+          <Text style={styles.imageCounter}>
+            {activeIndex + 1}/{imageUrls.length}
+          </Text>
+        </View>
+      )}
+      <View style={styles.icons}>
+        <TouchableWithoutFeedback>
+          <Icon name="heart" size={28} />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <Icon name="comment" size={28} />
+        </TouchableWithoutFeedback>
+      </View>
+      <View style={styles.contentContainer}>
+        <Text style={styles.like}>좋아요 {likeCount}개</Text>
+        <View style={styles.content}>
+          <Text style={styles.userName}>{user.name}</Text>
+          <Text>{content}</Text>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+      <View style={styles.commentContainer}>
+        {comments.length > 0 ? (
+          <Text>댓글 {comments.length} 모두 보기</Text>
+        ) : (
+          <View style={styles.comment}>
+            <Image
+              source={{uri: 'https://source.unsplash.com/random'}}
+              style={styles.profileImage}
+            />
+            <TextInput focusable={false} placeholder="댓글 추가.." />
+          </View>
+        )}
+      </View>
+    </View>
   );
 };
 
@@ -137,50 +109,85 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
   },
-  playIconContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  bottomContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  contentSection: {
-    width: 240,
-    paddingHorizontal: 20,
-    overflow: 'hidden',
-    justifyContent: 'center',
-  },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  content: {
-    fontSize: 16,
-    color: '#fff',
-  },
-  more: {
-    width: 80,
-    fontSize: 16,
-    color: '#fff',
-    marginBottom: 10,
-  },
-  actionSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
     padding: 10,
   },
-  button: {
-    marginTop: 10,
+  userName: {
+    fontWeight: 'bold',
+  },
+  profileImage: {
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+  },
+  slider: {
+    width: width,
+    height: 380,
+  },
+  image: {
+    width: width,
+    height: 380,
+    resizeMode: 'cover',
+  },
+  paginationWrapper: {
+    position: 'absolute',
+    bottom: 230,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  dot: {
+    height: 8,
+    width: 8,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  dotActive: {
+    backgroundColor: 'white',
+  },
+  dotInactive: {
+    backgroundColor: 'gray',
+  },
+  imageCounterContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    width: 45,
+    top: 100,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
+    borderRadius: 15,
+  },
+  imageCounter: {
+    color: 'white',
+    fontSize: 14,
+  },
+  icons: {
+    flexDirection: 'row',
+    gap: 10,
+    padding: 10,
+  },
+  contentContainer: {paddingHorizontal: 10},
+  like: {
+    fontSize: 16,
+    paddingBottom: 5,
+  },
+  content: {
+    flexDirection: 'row',
+    gap: 5,
+  },
+  commentContainer: {
+    padding: 10,
+  },
+  comment: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
 });
 

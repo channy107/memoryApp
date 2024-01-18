@@ -9,9 +9,14 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Video from 'react-native-video';
-import {IVideoPost} from '../types';
+import {IVideoPost} from '../../types';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faComment,
+  faHeart,
+  faPlayCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface IProps {
   post: IVideoPost;
@@ -72,7 +77,7 @@ const VideoPost = ({post}: IProps) => {
     <TouchableWithoutFeedback onPress={togglePause}>
       <View style={styles.container}>
         <Video
-          source={require('../../assets/video/video4.mov')}
+          source={require('../../../assets/video/video4.mov')}
           style={StyleSheet.absoluteFill}
           resizeMode="cover"
           repeat
@@ -90,10 +95,11 @@ const VideoPost = ({post}: IProps) => {
               ],
             },
           ]}>
-          {paused && <Icon name="play-circle" size={100} color="#FFF" />}
+          {paused && (
+            <FontAwesomeIcon icon={faPlayCircle} size={100} color={'#fff'} />
+          )}
         </Animated.View>
 
-        {/* <Image source={{uri: imgUrl}} style={StyleSheet.absoluteFillObject} /> */}
         <View style={styles.bottomContainer}>
           <Animated.View
             style={[styles.contentSection, {height: contentHeight}]}>
@@ -119,10 +125,10 @@ const VideoPost = ({post}: IProps) => {
 
           <View style={styles.actionSection}>
             <TouchableWithoutFeedback style={styles.button}>
-              <Icon name="heart" size={28} color={'#fff'} />
+              <FontAwesomeIcon icon={faHeart} size={20} />
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback style={styles.button}>
-              <Icon name="comment" size={28} color={'#fff'} />
+              <FontAwesomeIcon icon={faComment} size={20} />
             </TouchableWithoutFeedback>
           </View>
         </View>

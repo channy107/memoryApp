@@ -1,5 +1,5 @@
 import {SafeAreaView, FlatList, Dimensions} from 'react-native';
-import VideoPost from '../components/VideoPost';
+import VideoPost from '../components/VideoPost/VideoPost';
 
 const posts = [
   {
@@ -45,7 +45,7 @@ const posts = [
   },
 ];
 
-const height = Dimensions.get('window').height - getInset;
+const height = Dimensions.get('window').height - 68;
 
 function Video() {
   return (

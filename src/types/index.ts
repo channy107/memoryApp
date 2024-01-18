@@ -1,6 +1,9 @@
+import {ImageSourcePropType} from 'react-native';
+
 interface IUser {
   id: string;
   name: string;
+  profileImage: ImageSourcePropType;
 }
 
 interface IComment {

@@ -4,7 +4,14 @@ import Search from './src/screens/Search';
 import Add from './src/screens/Add';
 import Video from './src/screens/Video';
 import Profile from './src/screens/Profile';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faAdd,
+  faHouse,
+  faSearch,
+  faUser,
+  faVideo,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Tab = createBottomTabNavigator();
 function AppInner() {
@@ -16,7 +23,7 @@ function AppInner() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="home" size={20} />,
+          tabBarIcon: ({}) => <FontAwesomeIcon icon={faHouse} size={20} />,
         }}
       />
       <Tab.Screen
@@ -25,7 +32,7 @@ function AppInner() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="search" size={20} />,
+          tabBarIcon: ({}) => <FontAwesomeIcon icon={faSearch} size={20} />,
         }}
       />
       <Tab.Screen
@@ -34,7 +41,7 @@ function AppInner() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="plus" size={20} />,
+          tabBarIcon: ({}) => <FontAwesomeIcon icon={faAdd} size={20} />,
         }}
       />
       <Tab.Screen
@@ -43,7 +50,7 @@ function AppInner() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="video-camera" size={20} />,
+          tabBarIcon: ({}) => <FontAwesomeIcon icon={faVideo} size={20} />,
         }}
       />
       <Tab.Screen
@@ -52,7 +59,7 @@ function AppInner() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({}) => <Icon name="user-o" size={20} />,
+          tabBarIcon: ({}) => <FontAwesomeIcon icon={faUser} size={20} />,
         }}
       />
     </Tab.Navigator>

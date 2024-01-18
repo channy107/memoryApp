@@ -2,10 +2,10 @@ import {Text, View} from 'react-native';
 import {IPost} from '../../types';
 import UserProfileImage from './UserProfileImage/UserProfileImage';
 import Images from './Images/Images';
-import FeedbackButtons from './FeedbackButtons/FeedbackButtons';
 import PostContent from './PostContent/PostContent';
 import Comment from './Comment/Comment';
 import style from './style';
+import FeedbackButtons from '../FeedbackButtons/FeedbackButtons';
 
 interface IProps {
   post: IPost;
@@ -24,7 +24,7 @@ const Post = ({post}: IProps) => {
         <Text style={style.userName}>{user.name}</Text>
       </View>
       <Images imageUrls={imageUrls} />
-      <FeedbackButtons />
+      <FeedbackButtons direction="row" />
       <PostContent likeCount={likeCount} user={user} content={content} />
       <Comment comments={comments} />
     </View>

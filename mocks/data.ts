@@ -1,4 +1,4 @@
-export const posts = [
+const posts = [
   {
     id: '1',
     user: {
@@ -106,3 +106,52 @@ export const posts = [
     ],
   },
 ];
+
+const videoPosts = [
+  {
+    id: '1',
+    title: 'test1',
+    content:
+      'test contentㅇㄹdfdfdfdfdfdfdfdfafsdfasdfasdfasdfasdfadsfgfgfgfgfgfgfgfgfgfgfgfgdㅇㄹㅇ',
+    uri: '',
+    user: {
+      id: '1',
+      name: 'username1',
+      profileImage: require('../assets/img/profile1.jpeg'),
+    },
+  },
+  {
+    id: '2',
+    title: 'test2',
+    content: 'test content2dfdfdfdfdfdfdfdfdf',
+    uri: '',
+    user: {
+      id: '2',
+      name: 'username2',
+      profileImage: require('../assets/img/profile2.jpeg'),
+    },
+  },
+  {
+    id: '3',
+    title: 'test3',
+    content: 'test contentdfddfdfdfdddd3',
+    uri: '',
+    user: {
+      id: '3',
+      name: 'username3',
+      profileImage: require('../assets/img/profile3.jpeg'),
+    },
+  },
+  {
+    id: '4',
+    title: 'test4',
+    content: 'test content4',
+    uri: '',
+    user: {
+      id: '4',
+      name: 'username4',
+      profileImage: require('../assets/img/profile4.jpeg'),
+    },
+  },
+];
+export {posts, videoPosts};

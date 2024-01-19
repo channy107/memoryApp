@@ -6,11 +6,9 @@ import {
   NativeSyntheticEvent,
   Image,
   Text,
-  Dimensions,
 } from 'react-native';
 import style from './style';
-
-const width = Dimensions.get('window').width;
+import useGetDimension from '../../../hooks/useGetDimension';
 
 interface IProps {
   imageUrls: string[];
@@ -18,6 +16,7 @@ interface IProps {
 
 const Images = ({imageUrls}: IProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const {width, height} = useGetDimension();
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -32,9 +31,13 @@ const Images = ({imageUrls}: IProps) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={handleScroll}
-          style={style.slider}>
+          style={[style.slider, {width, height: height * 0.6}]}>
           {imageUrls.map((imageUrl, index) => (
-            <Image key={index} source={{uri: imageUrl}} style={style.image} />
+            <Image
+              key={index}
+              source={{uri: imageUrl}}
+              style={[style.image, {width, height: height * 0.6}]}
+            />
           ))}
         </ScrollView>
       </View>

@@ -1,16 +1,8 @@
-import {Dimensions, StyleSheet} from 'react-native';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+import {StyleSheet} from 'react-native';
 
 const style = StyleSheet.create({
-  slider: {
-    width: width,
-    height: height * 0.6,
-  },
+  slider: {},
   image: {
-    width: width,
-    height: height * 0.6,
     resizeMode: 'cover',
   },
   paginationWrapper: {

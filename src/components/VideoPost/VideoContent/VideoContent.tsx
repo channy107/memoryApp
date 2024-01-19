@@ -40,7 +40,6 @@ const VideoContent = ({title, content}: IProps) => {
     <>
       <Animated.View style={[style.contentSection, {height: contentHeight}]}>
         <Text style={style.title}>{title}</Text>
-
         <View>
           <Text
             style={style.content}

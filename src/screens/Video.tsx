@@ -1,10 +1,10 @@
-import {SafeAreaView, FlatList, Dimensions} from 'react-native';
+import {SafeAreaView, FlatList} from 'react-native';
 import VideoPost from '../components/VideoPost/VideoPost';
 import {videoPosts} from '../../mocks/data';
-
-const height = Dimensions.get('window').height - 68;
+import useGetDimension from '../hooks/useGetDimension';
 
 function Video() {
+  const {withoutBottomTabHeight} = useGetDimension();
   return (
     <SafeAreaView>
       <FlatList
@@ -15,7 +15,7 @@ function Video() {
         pagingEnabled
         showsVerticalScrollIndicator={false}
         snapToAlignment={'start'}
-        snapToInterval={height}
+        snapToInterval={withoutBottomTabHeight}
         decelerationRate={'fast'}
       />
     </SafeAreaView>
